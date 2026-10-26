@@ -1,0 +1,17 @@
+# Secrets - NEVER commit these
+.env
+*.har
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Editors / OS
+.idea/
+.DS_Store
+Thumbs.db
+
+# Saved portal page copies from the investigation (not for GitHub)
+probe_output/
