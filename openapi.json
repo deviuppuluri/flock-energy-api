@@ -6,13 +6,33 @@
     "version": "0.2.0"
   },
   "paths": {
+    "/": {
+      "get": {
+        "tags": [
+          "system"
+        ],
+        "summary": "Root",
+        "description": "Provide an entry point to the API and its documentation.",
+        "operationId": "root__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          }
+        }
+      }
+    },
     "/health": {
       "get": {
         "tags": [
           "system"
         ],
         "summary": "Health",
-        "description": "Is OUR API process running? (Does not contact the legacy portal.)",
+        "description": "Check whether the API process is responding.",
         "operationId": "health_health_get",
         "responses": {
           "200": {
@@ -34,7 +54,7 @@
           "meters"
         ],
         "summary": "List Meters",
-        "description": "One page of meters from the legacy portal (the portal decides the page size).",
+        "description": "Return one page of meters from the legacy portal.",
         "operationId": "list_meters_api_v1_meters_get",
         "parameters": [
           {
@@ -77,7 +97,7 @@
             }
           },
           "500": {
-            "description": "API configuration problem (e.g. missing credentials).",
+            "description": "API configuration problem.",
             "content": {
               "application/json": {
                 "schema": {
@@ -125,7 +145,7 @@
           "meters"
         ],
         "summary": "Get Meter",
-        "description": "Details of one meter: nameplate, network path and location.",
+        "description": "Return details for a specific meter.",
         "operationId": "get_meter_api_v1_meters__meter_id__get",
         "parameters": [
           {
@@ -165,7 +185,7 @@
             }
           },
           "500": {
-            "description": "API configuration problem (e.g. missing credentials).",
+            "description": "API configuration problem.",
             "content": {
               "application/json": {
                 "schema": {
@@ -213,7 +233,7 @@
           "meters"
         ],
         "summary": "Get Consumption",
-        "description": "Consumption history of one meter. NOT IMPLEMENTED YET (returns 501).",
+        "description": "Return consumption history if supported by the adapter.",
         "operationId": "get_consumption_api_v1_meters__meter_id__consumption_get",
         "parameters": [
           {
@@ -253,7 +273,7 @@
             }
           },
           "501": {
-            "description": "Not implemented yet.",
+            "description": "Feature not implemented.",
             "content": {
               "application/json": {
                 "schema": {
@@ -288,6 +308,66 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/v1/hierarchy": {
+      "get": {
+        "tags": [
+          "network"
+        ],
+        "summary": "Get Hierarchy",
+        "description": "Return the hierarchy only if the adapter implements this feature.",
+        "operationId": "get_hierarchy_api_v1_hierarchy_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": {
+              "application/json": {
+                "schema": {}
+              }
+            }
+          },
+          "500": {
+            "description": "API configuration problem.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "501": {
+            "description": "Feature not implemented.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "502": {
+            "description": "Portal error or login failure.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
+                }
+              }
+            }
+          },
+          "504": {
+            "description": "Portal timed out.",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ErrorResponse"
                 }
               }
             }
